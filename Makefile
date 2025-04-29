@@ -1,4 +1,13 @@
+SHELL       := cmd
+.SHELLFLAGS := /C
+
 .PHONY: all build install clean
+
+# Linux 側コピー先
+WSL_DST        := /home/johmaru/mnt/EFI
+# Windows 側ビルド成果物を Linux パスに変換
+WIN_SRC_ABS    := $(CURDIR)/zig-out/bin/EFI
+WSL_SRC_ABS    := $(shell wsl wslpath -u "$(WIN_SRC_ABS)")
 
 all: install
 
@@ -6,9 +15,8 @@ build:
 	zig build
 
 install: build
-	@echo Copying EFI files to WSL share ...
-	@robocopy zig-out\bin\EFI "\\wsl.localhost\Ubuntu\home\johmaru\mnt\EFI" /MIR /NFL /NDL /NP /NJH /NJS \
-		&& (exit 0) || (set ec=%ERRORLEVEL% & echo robocopy failed with %ec% & exit /b %ec%)
+	@echo WSLにファイルを移動中 ...
+	@wsl sh -c "rm -rf $(WSL_DST) && mkdir -p $(WSL_DST) && cp -aT $(WSL_SRC_ABS) $(WSL_DST)"
 
 clean:
 	@rmdir /S /Q zig-out 2>NUL || exit 0

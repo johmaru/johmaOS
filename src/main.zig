@@ -19,5 +19,7 @@ pub fn main() Status {
     const hello_utf16: [*:0]const u16 = &buffer;
     _ = con_out.outputString(hello_utf16);
 
+    while (true) {}
+
     return Status.success;
 }

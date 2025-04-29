@@ -16,6 +16,19 @@
         - (FILE) BOOTX64.EFI
 
 
+### wsl2の設定
+
+``` /etc/wsl.conf ```　に以下コードを追加してwslを再起動
+
+```
+
+[automount]
+options = "metadata,umask=22,fmask=11"
+
+```
+
+これでmake allが使用できる。
+
 ### 必要コマンド
 
 ``` 
