@@ -15,7 +15,7 @@ build:
 	zig build
 
 install: build
-	@echo WSLにファイルを移動中 ...
+	@echo os build copy to wsl2 now ...
 	@wsl sh -c "rm -rf $(WSL_DST) && mkdir -p $(WSL_DST) && cp -aT $(WSL_SRC_ABS) $(WSL_DST)"
 
 clean:
